@@ -1,6 +1,10 @@
+avatar:
+  enable: true
+  url: /images/ater.jpg
+
 banner:
   enable: true
-  title: CHY的小站
+  title: CHY的图书馆
   src: /js/ui/banner.js
   border: true
   cloud:
@@ -33,3 +37,21 @@ social:
 reward:
   enable: false
 
+menu:
+  home:
+    path: /
+    icon: icon-home-4-line
+  list:
+    - type: archives
+      path: /archives/
+      icon: icon-archive-line
+    - type: categories
+      path: /categories/
+      icon: icon-folder-2-line
+    - type: tags
+      path: /tags/
+      icon: icon-price-tag-3-line
+  custom:
+    title: 关于
+    path: /about/
+    icon: icon-book-2-line

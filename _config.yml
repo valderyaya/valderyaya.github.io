@@ -3,9 +3,9 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: valder的图书馆
 subtitle: ''
-description: ''
+description: '希望能成为厉害的人'
 keywords:
 author: Valder
 language: en
@@ -13,7 +13,7 @@ timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: https://valderyaya.github.io
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
