@@ -55,3 +55,18 @@ menu:
     title: 关于
     path: /about/
     icon: icon-book-2-line
+
+cursor:
+  enable: true
+  default: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/pointer.cur
+  pointer: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/link.cur
+  text: https://cdn.jsdelivr.net/gh/YunYouJun/cdn/css/md-cursors/text.cur
+
+pages:
+  - name: 我的小伙伴们
+    url: https://hakkaz.github.io
+    icon: icon-genderless-line
+    color: dodgerblue
+    
+wordcloud:
+  enable: true
