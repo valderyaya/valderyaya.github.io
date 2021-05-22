@@ -1,10 +1,10 @@
 avatar:
   enable: true
-  url: /images/skadi.jpg
+  url: /images/alice.jpg
 
 banner:
   enable: true
-  title: CHY的图书馆
+  title: CHY的藏书库
   src: /js/ui/banner.js
   border: true
   cloud:
