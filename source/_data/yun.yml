@@ -4,7 +4,7 @@ avatar:
 
 banner:
   enable: true
-  title: CHY的藏书库
+  title: CHY的图书馆
   src: /js/ui/banner.js
   border: true
   cloud:
@@ -15,24 +15,14 @@ banner:
     icon: icon-arrow-down-s-line
 
 social:
-  - name: RSS
-    # set rss in your root config
-    # https://github.com/hexojs/hexo-generator-feed
-    link: /atom.xml # config.feed.path
-    icon: icon-rss-line
-    color: orange
   - name: GitHub
-    link: https://github.com/YunYouJun
+    link: https://github.com/valderyaya
     icon: icon-github-line
     color: "#6e5494"
   - name: E-Mail
     link: mailto:gaiya1265742576@gmail.com
     icon: icon-mail-line
     color: "#8E71C1"
-  - name: Travelling
-    link: https://travellings.now.sh/
-    icon: icon-send-plane-2-line
-    color: black
 
 reward:
   enable: false
