@@ -60,3 +60,12 @@ pages:
     
 wordcloud:
   enable: true
+
+
+highlight:
+  enable: false
+prismjs:
+  enable: true
+  preprocess: true
+  line_number: true
+  tab_replace: ''
