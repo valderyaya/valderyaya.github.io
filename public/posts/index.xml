@@ -1,19 +1,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Posts on valderyaya library</title>
-        <link>http://localhost:1313/posts/</link>
+        <link>https://valderyaya.github.io/posts/</link>
         <description>Recent content in Posts on valderyaya library</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Mon, 24 Feb 2025 21:59:46 +0800</lastBuildDate>
-        <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+        <lastBuildDate>Tue, 25 Feb 2025 17:17:05 +0800</lastBuildDate>
+        <atom:link href="https://valderyaya.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>About</title>
+            <link>https://valderyaya.github.io/posts/about/</link>
+            <pubDate>Tue, 25 Feb 2025 17:17:05 +0800</pubDate>
+            
+            <guid>https://valderyaya.github.io/posts/about/</guid>
+            <description>&lt;p&gt;Hello!&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<p>Hello!</p>
+]]></content>
+        </item>
         
         <item>
             <title>Hugo架设笔记</title>
-            <link>http://localhost:1313/posts/hugo%E6%9E%B6%E8%AE%BE%E7%AC%94%E8%AE%B0/</link>
+            <link>https://valderyaya.github.io/posts/hugo%E6%9E%B6%E8%AE%BE%E7%AC%94%E8%AE%B0/</link>
             <pubDate>Mon, 24 Feb 2025 21:59:46 +0800</pubDate>
             
-            <guid>http://localhost:1313/posts/hugo%E6%9E%B6%E8%AE%BE%E7%AC%94%E8%AE%B0/</guid>
+            <guid>https://valderyaya.github.io/posts/hugo%E6%9E%B6%E8%AE%BE%E7%AC%94%E8%AE%B0/</guid>
             <description>&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
 &lt;p&gt;Windows: &lt;code&gt;winget install Hugo.Hugo.Extended&lt;/code&gt;&lt;/p&gt;
 &lt;h2 id=&#34;在-github-建立一个仓库&#34;&gt;在 github 建立一个仓库&lt;/h2&gt;
