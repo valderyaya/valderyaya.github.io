@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Untagged on valderyaya library</title>
+    <link>http://localhost:1313/tags/untagged/</link>
+    <description>Recent content in Untagged on valderyaya library</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 24 Feb 2025 21:59:46 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/untagged/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hugo架设笔记</title>
+      <link>http://localhost:1313/posts/hugo%E6%9E%B6%E8%AE%BE%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Mon, 24 Feb 2025 21:59:46 +0800</pubDate>
+      <guid>http://localhost:1313/posts/hugo%E6%9E%B6%E8%AE%BE%E7%AC%94%E8%AE%B0/</guid>
+      <description>&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;&#xA;&lt;p&gt;Windows: &lt;code&gt;winget install Hugo.Hugo.Extended&lt;/code&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;在-github-建立一个仓库&#34;&gt;在 github 建立一个仓库&lt;/h2&gt;&#xA;&lt;p&gt;名字叫： {username}.github.io&lt;/p&gt;&#xA;&lt;h2 id=&#34;在本地建立一个-hugo-专案&#34;&gt;在本地建立一个 Hugo 专案&lt;/h2&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;hugo new site [project name]&#xD;&#xA;&#xD;&#xA;cd [project name]&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;可以使用 &lt;code&gt;hugo server&lt;/code&gt; 启动看看，如果显示 page not found 是正常的&lt;/p&gt;&#xA;&lt;p&gt;在专案资料夹下 &lt;code&gt;git init&lt;/code&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;hugo主题&#34;&gt;Hugo主题&lt;/h2&gt;&#xA;&lt;p&gt;我这里使用的是 &lt;a href=&#34;https://github.com/rhazdon/hugo-theme-hello-friend-ng&#34;&gt;Hello Friend NG&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;cd 到专案资料夹, 打指令 &lt;code&gt;git submodule add https://github.com/rhazdon/hugo-theme-hello-friend-ng.git themes/hugo-profile&lt;/code&gt;&lt;/p&gt;&#xA;&lt;p&gt;在 &lt;code&gt;hugo.toml&lt;/code&gt; 修改&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;baseURL = &amp;#39;https://valderyaya.github.io&amp;#39; //改成自己的网址&#xD;&#xA;languageCode = &amp;#39;en-us&amp;#39;&#xD;&#xA;title = &amp;#39;valderyaya library&amp;#39; // 改成自己想要的title&#xD;&#xA;theme = &amp;#39;hugo-profile&amp;#39;&#xD;&#xA;&#xD;&#xA;[params]&#xD;&#xA;  dateform        = &amp;#34;Jan 2, 2006&amp;#34;&#xD;&#xA;  dateformShort   = &amp;#34;Jan 2&amp;#34;&#xD;&#xA;  dateformNum     = &amp;#34;2006-01-02&amp;#34;&#xD;&#xA;  dateformNumTime = &amp;#34;2006-01-02 15:04&amp;#34;&#xD;&#xA;&#xD;&#xA;enableRobotsTXT = true&#xD;&#xA;enableGitInfo   = false&#xD;&#xA;enableEmoji     = true&#xD;&#xA;enableMissingTranslationPlaceholders = false&#xD;&#xA;disableRSS     = false&#xD;&#xA;disableSitemap = false&#xD;&#xA;disable404     = false&#xD;&#xA;disableHugoGeneratorInject = false&#xD;&#xA;&#xD;&#xA;[menu]&#xD;&#xA;  [[menu.main]]&#xD;&#xA;    identifier = &amp;#34;about&amp;#34;&#xD;&#xA;    name       = &amp;#34;About&amp;#34;&#xD;&#xA;    url        = &amp;#34;about/&amp;#34;&#xD;&#xA;  [[menu.main]]&#xD;&#xA;    identifier = &amp;#34;posts&amp;#34;&#xD;&#xA;    name       = &amp;#34;Posts&amp;#34;&#xD;&#xA;    url        = &amp;#34;posts/&amp;#34;&#xD;&#xA;  [[menu.main]]&#xD;&#xA;    identifier = &amp;#34;categories&amp;#34;&#xD;&#xA;    name       = &amp;#34;Categories&amp;#34;&#xD;&#xA;    url        = &amp;#34;categories/&amp;#34;&#xD;&#xA;  [[menu.main]]&#xD;&#xA;    identifier = &amp;#34;tags&amp;#34;&#xD;&#xA;    name       = &amp;#34;Tags&amp;#34;&#xD;&#xA;    url        = &amp;#34;tags/&amp;#34;&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;建立文章&#34;&gt;建立文章&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;hugo new posts/[first-post].md&lt;/code&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
