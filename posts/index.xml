@@ -1,0 +1,185 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Posts on valderyaya library</title>
+        <link>https://valderyaya.github.io/posts/</link>
+        <description>Recent content in Posts on valderyaya library</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Mon, 24 Feb 2025 21:59:46 +0800</lastBuildDate>
+        <atom:link href="https://valderyaya.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Hugo架设笔记</title>
+            <link>https://valderyaya.github.io/posts/hugo%E6%9E%B6%E8%AE%BE%E7%AC%94%E8%AE%B0/</link>
+            <pubDate>Mon, 24 Feb 2025 21:59:46 +0800</pubDate>
+            
+            <guid>https://valderyaya.github.io/posts/hugo%E6%9E%B6%E8%AE%BE%E7%AC%94%E8%AE%B0/</guid>
+            <description>&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
+&lt;p&gt;Windows: &lt;code&gt;winget install Hugo.Hugo.Extended&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;在-github-建立一个仓库&#34;&gt;在 github 建立一个仓库&lt;/h2&gt;
+&lt;p&gt;名字叫： {username}.github.io&lt;/p&gt;
+&lt;h2 id=&#34;在本地建立一个-hugo-专案&#34;&gt;在本地建立一个 Hugo 专案&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;hugo new site [project name]
+
+cd [project name]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;可以使用 &lt;code&gt;hugo server&lt;/code&gt; 启动看看，如果显示 page not found 是正常的&lt;/p&gt;
+&lt;p&gt;在专案资料夹下 &lt;code&gt;git init&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;hugo主题&#34;&gt;Hugo主题&lt;/h2&gt;
+&lt;p&gt;我这里使用的是 &lt;a href=&#34;https://github.com/rhazdon/hugo-theme-hello-friend-ng&#34;&gt;Hello Friend NG&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;cd 到专案资料夹, 打指令 &lt;code&gt;git submodule add https://github.com/rhazdon/hugo-theme-hello-friend-ng.git themes/hugo-profile&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;在 &lt;code&gt;hugo.toml&lt;/code&gt; 修改&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;baseURL = &amp;#39;https://valderyaya.github.io&amp;#39; //改成自己的网址
+languageCode = &amp;#39;en-us&amp;#39;
+title = &amp;#39;valderyaya library&amp;#39; // 改成自己想要的title
+theme = &amp;#39;hugo-profile&amp;#39;
+
+[params]
+  dateform        = &amp;#34;Jan 2, 2006&amp;#34;
+  dateformShort   = &amp;#34;Jan 2&amp;#34;
+  dateformNum     = &amp;#34;2006-01-02&amp;#34;
+  dateformNumTime = &amp;#34;2006-01-02 15:04&amp;#34;
+
+enableRobotsTXT = true
+enableGitInfo   = false
+enableEmoji     = true
+enableMissingTranslationPlaceholders = false
+disableRSS     = false
+disableSitemap = false
+disable404     = false
+disableHugoGeneratorInject = false
+
+[menu]
+  [[menu.main]]
+    identifier = &amp;#34;about&amp;#34;
+    name       = &amp;#34;About&amp;#34;
+    url        = &amp;#34;about/&amp;#34;
+  [[menu.main]]
+    identifier = &amp;#34;posts&amp;#34;
+    name       = &amp;#34;Posts&amp;#34;
+    url        = &amp;#34;posts/&amp;#34;
+  [[menu.main]]
+    identifier = &amp;#34;categories&amp;#34;
+    name       = &amp;#34;Categories&amp;#34;
+    url        = &amp;#34;categories/&amp;#34;
+  [[menu.main]]
+    identifier = &amp;#34;tags&amp;#34;
+    name       = &amp;#34;Tags&amp;#34;
+    url        = &amp;#34;tags/&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;建立文章&#34;&gt;建立文章&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;hugo new posts/[first-post].md&lt;/code&gt;&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<h2 id="安装">安装</h2>
+<p>Windows: <code>winget install Hugo.Hugo.Extended</code></p>
+<h2 id="在-github-建立一个仓库">在 github 建立一个仓库</h2>
+<p>名字叫： {username}.github.io</p>
+<h2 id="在本地建立一个-hugo-专案">在本地建立一个 Hugo 专案</h2>
+<pre tabindex="0"><code>hugo new site [project name]
+
+cd [project name]
+</code></pre><p>可以使用 <code>hugo server</code> 启动看看，如果显示 page not found 是正常的</p>
+<p>在专案资料夹下 <code>git init</code></p>
+<h2 id="hugo主题">Hugo主题</h2>
+<p>我这里使用的是 <a href="https://github.com/rhazdon/hugo-theme-hello-friend-ng">Hello Friend NG</a></p>
+<p>cd 到专案资料夹, 打指令 <code>git submodule add https://github.com/rhazdon/hugo-theme-hello-friend-ng.git themes/hugo-profile</code></p>
+<p>在 <code>hugo.toml</code> 修改</p>
+<pre tabindex="0"><code>baseURL = &#39;https://valderyaya.github.io&#39; //改成自己的网址
+languageCode = &#39;en-us&#39;
+title = &#39;valderyaya library&#39; // 改成自己想要的title
+theme = &#39;hugo-profile&#39;
+
+[params]
+  dateform        = &#34;Jan 2, 2006&#34;
+  dateformShort   = &#34;Jan 2&#34;
+  dateformNum     = &#34;2006-01-02&#34;
+  dateformNumTime = &#34;2006-01-02 15:04&#34;
+
+enableRobotsTXT = true
+enableGitInfo   = false
+enableEmoji     = true
+enableMissingTranslationPlaceholders = false
+disableRSS     = false
+disableSitemap = false
+disable404     = false
+disableHugoGeneratorInject = false
+
+[menu]
+  [[menu.main]]
+    identifier = &#34;about&#34;
+    name       = &#34;About&#34;
+    url        = &#34;about/&#34;
+  [[menu.main]]
+    identifier = &#34;posts&#34;
+    name       = &#34;Posts&#34;
+    url        = &#34;posts/&#34;
+  [[menu.main]]
+    identifier = &#34;categories&#34;
+    name       = &#34;Categories&#34;
+    url        = &#34;categories/&#34;
+  [[menu.main]]
+    identifier = &#34;tags&#34;
+    name       = &#34;Tags&#34;
+    url        = &#34;tags/&#34;
+</code></pre><h2 id="建立文章">建立文章</h2>
+<p><code>hugo new posts/[first-post].md</code></p>
+<blockquote>
+<p>以下从别的网站复制过来的</p></blockquote>
+<p>title：文章标题；</p>
+<p>data：文章被创建的事件</p>
+<p>draft：是否草稿内容，如果为true，将不显示在博客站点中。</p>
+<p>tags：为这篇文章创建标签，是数组形式[&ldquo;1&rdquo;,&ldquo;2&rdquo;,&ldquo;3&rdquo;]</p>
+<p>categories：为这篇文章创建分类，是数组形式[&ldquo;1&rdquo;,&ldquo;2&rdquo;,&ldquo;3&rdquo;]</p>
+<h1 id="如何部署和备份">如何部署和备份</h1>
+<p>在执行 <code>hexo server</code> 之后会产生一个 puiblic 资料夹，这个资料夹里面的内容就是要放在 github pages 上的</p>
+<p>下面是一个script，主要功能是把blog的资料夹备份到私人的repo，把public资料夹的内容 push 到 github pages</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 配置私有仓库和公开仓库的 Git URL</span>
+</span></span><span style="display:flex;"><span>PRIVATE_REPO<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;git@github.com:your_username/my-hugo-blog.git&#34;</span>
+</span></span><span style="display:flex;"><span>PUBLIC_REPO<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;git@github.com:your_username/my-hugo-blog.github.io.git&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置 Hugo 项目的路径</span>
+</span></span><span style="display:flex;"><span>PROJECT_DIR<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>PUBLIC_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>PROJECT_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">/public&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 检查 public 目录是否存在</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> ! -d <span style="color:#e6db74">&#34;</span>$PUBLIC_DIR<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;Error: public folder not found!&#34;</span>
+</span></span><span style="display:flex;"><span>    exit <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1. 部署到私人仓库（推送代码到私有仓库）</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Deploying Hugo project to private GitHub repository...&#34;</span>
+</span></span><span style="display:flex;"><span>git add .
+</span></span><span style="display:flex;"><span>git commit -m <span style="color:#e6db74">&#34;Deploy Hugo project to private repo&#34;</span>
+</span></span><span style="display:flex;"><span>git push <span style="color:#e6db74">&#34;</span>$PRIVATE_REPO<span style="color:#e6db74">&#34;</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. 使用 git subtree 将 public 目录推送到 GitHub Pages 仓库</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Deploying Hugo public content to GitHub Pages repository...&#34;</span>
+</span></span><span style="display:flex;"><span>git subtree push --prefix<span style="color:#f92672">=</span>public <span style="color:#e6db74">&#34;</span>$PUBLIC_REPO<span style="color:#e6db74">&#34;</span> main
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Deployment successful!&#34;</span>
+</span></span></code></pre></div><p>修改脚本的执行权限：</p>
+<p><code>chmod +x deploy.sh</code></p>
+<p>执行脚本：</p>
+<p><code>./deploy.sh</code></p>
+<h2 id="一些常用指令">一些常用指令</h2>
+<h3 id="建立新文章">建立新文章</h3>
+<p><code>hugo new posts/[new-post].md</code></p>
+<h3 id="本地运行-hugo">本地运行 Hugo</h3>
+<pre tabindex="0"><code># 预设执行
+hugo server
+
+# 包含草稿一起显示
+hugo server -D
+
+# 不限發佈日期文章一律顯示
+hugo server -F
+</code></pre><h3 id="清理静态档案">清理静态档案</h3>
+<p><code>hugo --cleanDestinationDir</code></p>
+<h3 id="发布静态网页档">发布静态网页档</h3>
+<p><code>hugo</code></p>
+<p>记得部署前要打这个指令，如果用 <code>hugo server</code> 的话部署上去会有问题</p>
+]]></content>
+        </item>
+        
+    </channel>
+</rss>
