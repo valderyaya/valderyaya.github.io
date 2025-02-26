@@ -1,19 +1,589 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Posts on valderyaya library</title>
-        <link>https://valderyaya.github.io/posts/</link>
+        <link>http://localhost:1313/posts/</link>
         <description>Recent content in Posts on valderyaya library</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Wed, 26 Feb 2025 10:03:54 +0800</lastBuildDate>
-        <atom:link href="https://valderyaya.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        <lastBuildDate>Wed, 26 Feb 2025 10:39:33 +0800</lastBuildDate>
+        <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>持久化線段樹</title>
+            <link>http://localhost:1313/posts/%E6%8C%81%E4%B9%85%E5%8C%96%E7%B7%9A%E6%AE%B5%E6%A8%B9/</link>
+            <pubDate>Wed, 26 Feb 2025 10:39:33 +0800</pubDate>
+            
+            <guid>http://localhost:1313/posts/%E6%8C%81%E4%B9%85%E5%8C%96%E7%B7%9A%E6%AE%B5%E6%A8%B9/</guid>
+            <description>&lt;p&gt;我們先來看一下 CSES 1737 的這道&lt;a href=&#34;https://cses.fi/problemset/task/1737/&#34;&gt;題目&lt;/a&gt;：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;題目大意是維護一個集合， 集合裡面有很多 array（初始為一個），你要維護以下三種操作：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;把第 k 個版本的 array 的位置 a 的值改成 x&lt;/li&gt;
+&lt;li&gt;求出第 k 個版本的 array 中位置 a 到 b 的區間和&lt;/li&gt;
+&lt;li&gt;複製第 k 個版本的 array&lt;/li&gt;
+&lt;/ol&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;什麼是持久化線段樹&#34;&gt;什麼是持久化線段樹&lt;/h2&gt;
+&lt;p&gt;持久化就是保存歷史版本，我們每次在線段樹上修改某個東西就會新建一個版本，這樣如果我們要知道修改之前資料的樣子是什麼，就可以跳回那個版本。&lt;/p&gt;
+&lt;p&gt;對線段樹上進行持久化，最簡單的想法就是每次修改的時候，直接複製一整顆線段樹，但這樣的話太浪費記憶體空間了。&lt;/p&gt;
+&lt;p&gt;仔細回想一下在線段樹的修改（以單點修改爲例），會發現其實每次有改到的點只有根到葉子的那一條鏈，而其他節點的值都不變。&lt;/p&gt;
+&lt;p&gt;（修改第13個點的值）
+&lt;img src=&#34;../../static/%E6%8C%81%E4%B9%85%E5%8C%96%E7%BA%BF%E6%AE%B5%E6%A0%91/1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;所以每次遞迴修改的時候，遇到需要修改的子節點就新建一個指標給它，另一個未修改到的子節點就連回上一個版本的指標位置，其餘的部分都跟普通的線段樹一樣。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../static/%E6%8C%81%E4%B9%85%E5%8C%96%E7%BA%BF%E6%AE%B5%E6%A0%91/2.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;空間複雜度&#34;&gt;空間複雜度&lt;/h3&gt;
+&lt;p&gt;如果序列長度為 N ，那每次單點修改需要增加  log{ N } 個點，如果有 Q 次修改操作，需要增加的節點數就是 Q \times log{N}，加上原本線段樹的節點 2N - 1 ， 持久化線段樹的總空間會到 2N -1 + Qlog{N}。&lt;/p&gt;
+&lt;h3 id=&#34;時間複雜度&#34;&gt;時間複雜度&lt;/h3&gt;
+&lt;p&gt;持久化線段樹的操作的時間複雜度與普通的線段樹是一樣的，以這題爲例，建樹的時間複雜度是 O(N) ，單點修改（即題目的操作 1 ）的時間複雜度是 O(log{N}) ， 區間查詢（即題目的操作 2 ）的時間為 O(log{N}) ，總時間複雜度為 O(N) + O(Qlog{N}) 。&lt;/p&gt;</description>
+            <content type="html"><![CDATA[<p>我們先來看一下 CSES 1737 的這道<a href="https://cses.fi/problemset/task/1737/">題目</a>：</p>
+<blockquote>
+<p>題目大意是維護一個集合， 集合裡面有很多 array（初始為一個），你要維護以下三種操作：</p>
+<ol>
+<li>把第 k 個版本的 array 的位置 a 的值改成 x</li>
+<li>求出第 k 個版本的 array 中位置 a 到 b 的區間和</li>
+<li>複製第 k 個版本的 array</li>
+</ol></blockquote>
+<h2 id="什麼是持久化線段樹">什麼是持久化線段樹</h2>
+<p>持久化就是保存歷史版本，我們每次在線段樹上修改某個東西就會新建一個版本，這樣如果我們要知道修改之前資料的樣子是什麼，就可以跳回那個版本。</p>
+<p>對線段樹上進行持久化，最簡單的想法就是每次修改的時候，直接複製一整顆線段樹，但這樣的話太浪費記憶體空間了。</p>
+<p>仔細回想一下在線段樹的修改（以單點修改爲例），會發現其實每次有改到的點只有根到葉子的那一條鏈，而其他節點的值都不變。</p>
+<p>（修改第13個點的值）
+<img src="../../static/%E6%8C%81%E4%B9%85%E5%8C%96%E7%BA%BF%E6%AE%B5%E6%A0%91/1.png" alt=""></p>
+<p>所以每次遞迴修改的時候，遇到需要修改的子節點就新建一個指標給它，另一個未修改到的子節點就連回上一個版本的指標位置，其餘的部分都跟普通的線段樹一樣。</p>
+<p><img src="../../static/%E6%8C%81%E4%B9%85%E5%8C%96%E7%BA%BF%E6%AE%B5%E6%A0%91/2.png" alt=""></p>
+<h3 id="空間複雜度">空間複雜度</h3>
+<p>如果序列長度為 N ，那每次單點修改需要增加  log{ N } 個點，如果有 Q 次修改操作，需要增加的節點數就是 Q \times log{N}，加上原本線段樹的節點 2N - 1 ， 持久化線段樹的總空間會到 2N -1 + Qlog{N}。</p>
+<h3 id="時間複雜度">時間複雜度</h3>
+<p>持久化線段樹的操作的時間複雜度與普通的線段樹是一樣的，以這題爲例，建樹的時間複雜度是 O(N) ，單點修改（即題目的操作 1 ）的時間複雜度是 O(log{N}) ， 區間查詢（即題目的操作 2 ）的時間為 O(log{N}) ，總時間複雜度為 O(N) + O(Qlog{N}) 。</p>
+<p><a href="https://cses.fi/problemset/task/1737/">CSES 1737</a></p>
+<pre tabindex="0"><code class="language-cpp=" data-lang="cpp=">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+typedef long long ll;
+
+const int z = 2e5 + 1;
+int n, q;
+struct persistent_segment_tree {
+  int lc[z &lt;&lt; 5], rc[z &lt;&lt; 5], tot = 0, rt[z];
+  ll sum[z &lt;&lt; 5];
+  int node() {
+    ++tot;
+    lc[tot] = rc[tot] = sum[tot] = 0;
+    return tot;
+  }
+  void build(int l, int r, int &amp;o) {
+    if (!o)
+      o = node();
+    if (l == r)
+      return cin &gt;&gt; sum[o], void();
+    int mid = l + r &gt;&gt; 1;
+    build(l, mid, lc[o]);
+    build(mid + 1, r, rc[o]);
+    sum[o] = sum[lc[o]] + sum[rc[o]];
+  }
+  ll qry(int l, int r, int ql, int qr, int o) {
+    if (ql &lt;= l &amp;&amp; r &lt;= qr)
+      return sum[o];
+    ll mid = l + r &gt;&gt; 1, res = 0;
+    if (ql &lt;= mid)
+      res = qry(l, mid, ql, qr, lc[o]);
+    if (qr &gt; mid)
+      res += qry(mid + 1, r, ql, qr, rc[o]);
+    return res;
+  }
+  int mdf(int l, int r, int x, int o, int v) {
+    int p = node();
+    lc[p] = lc[o], rc[p] = rc[o];
+    if (l == r)
+      return sum[p] = v, p;
+    int mid = l + r &gt;&gt; 1;
+    if (x &lt;= mid)
+      lc[p] = mdf(l, mid, x, lc[p], v);
+    else
+      rc[p] = mdf(mid + 1, r, x, rc[p], v);
+    sum[p] = sum[lc[p]] + sum[rc[p]];
+    return p;
+  }
+} seg;
+signed main() {
+  ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+  cin &gt;&gt; n &gt;&gt; q;
+  seg.build(1, n, seg.rt[1]);
+  for (int op, k, x, y, i = 1; q--;) {
+    cin &gt;&gt; op;
+    if (op == 3)
+      cin &gt;&gt; k, seg.rt[++i] = seg.rt[k];
+    else if (op == 1) {
+      cin &gt;&gt; k &gt;&gt; x &gt;&gt; y;
+      seg.rt[k] = seg.mdf(1, n, x, seg.rt[k], y);
+    } else {
+      cin &gt;&gt; k &gt;&gt; x &gt;&gt; y;
+      cout &lt;&lt; seg.qry(1, n, x, y, seg.rt[k]) &lt;&lt; &#34;\n&#34;;
+    }
+  }
+  return 0;
+}
+</code></pre><h2 id="經典應用-區間第k小">經典應用 區間第k小</h2>
+<blockquote>
+<p><a href="https://www.luogu.com.cn/problem/P3834">洛谷P3834 【模板】可持久化线段树 2</a></p>
+<p>給定長度為 n 整數序列 a，接著有 q 筆詢問，對於詢問的閉區間 [l, r] 求出區間內的第 k 小值</p>
+<p>n , q &lt; 2 \times 10^5 , |a_i| &lt; 10^9</p></blockquote>
+<h4 id="如何查詢第-k-小">如何查詢第 k 小</h4>
+<p>在求區間第 k 小之前，先來看一下要如何求出全部數字（也就是詢問 [1, n] ）的第 k 小，我們考慮對線段樹做一點修改，原本的線段樹存的是一個序列的值，我們把線段樹的下標改成存某個數字出現的次數（即下標為 x 的葉節點存的是數字 x 的出現次數），而其他節點則是存左右子樹的和。</p>
+<p><img src="../../static/%E6%8C%81%E4%B9%85%E5%8C%96%E7%BA%BF%E6%AE%B5%E6%A0%91/3.png" alt=""></p>
+<p>由於每個節點是存的是區間和，要求第 k 小，我們從根節點開始，每次判斷左子樹的和是否<strong>大於等於</strong> k，如果是的話表示有至少 k 個數字在左子樹，所以往左子樹找。如果左子樹的和<strong>小於</strong> k ，表示答案在右子樹，先把 k 減掉左子樹的和，再往右子樹找答案，直到找到葉節點，所對應的下標就是答案。</p>
+<pre tabindex="0"><code class="language-cpp=" data-lang="cpp=">int query_kth(int l, int r, int rt, int k){
+    if(l == r) return l;
+    int sum = seg[rt &lt;&lt; 1], mid = l + r &gt;&gt; 1;
+    if(sum &gt;= k) return query_kth(l, mid, rt &lt;&lt; 1, k);
+    return query_kth(mid + 1, r, rt &lt;&lt; 1 | 1, k - sum);
+}
+</code></pre><h2 id="回到題目">回到題目</h2>
+<p>我們由左往右掃過整個序列，每個數字都新建一個版本並插入持久化線段樹，這樣第 r 個版本就有了 [1, r] 的線段樹的樣子</p>
+<p>那對於區間詢問 [l,r]，我們可以利用前綴和的特性，用第 r 個版本的線段樹減掉第 l-1 個版本就可以求出 [l,r] 這個區間的線段樹的樣子，接下來就用上面提到的方法在線段樹上找第 k 小即可。</p>
+<p>時間複雜度：O(Nlog{N}) + O(Qlog{N})
+空間複雜度： O(Nlog{N})</p>
+<p>附上 <a href="https://www.luogu.com.cn/problem/P3834">洛谷 P3834</a> 的code</p>
+<pre tabindex="0"><code class="language-cpp=" data-lang="cpp=">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int maxn = 200001;
+int n, m, a[maxn], b[maxn];
+struct persistent_segment_tree {
+  int ls[maxn &lt;&lt; 5], rs[maxn &lt;&lt; 5], sum[maxn &lt;&lt; 5], root[maxn] = {}, cnt;
+  int node() {
+    ++cnt;
+    ls[cnt] = rs[cnt] = sum[cnt] = 0;
+    return cnt;
+  }
+  void build(int l, int r, int &amp;o) {
+    o = node();
+    int mid = l + r &gt;&gt; 1;
+    if (l == r)
+      return;
+    build(l, mid, ls[o]);
+    build(mid + 1, r, rs[o]);
+  }
+  void add(int l, int r, int &amp;o, int lst, int x) {
+    o = node();
+    ls[o] = ls[lst];
+    rs[o] = rs[lst];
+    sum[o] = sum[lst] + 1;
+    int mid = l + r &gt;&gt; 1;
+    if (l == r)
+      return;
+    if (x &lt;= mid)
+      add(l, mid, ls[o], ls[lst], x);
+    else
+      add(mid + 1, r, rs[o], rs[lst], x);
+  }
+  int query(int L, int R, int l, int r, int k) {
+    if (l == r)
+      return l;
+    int x = sum[ls[R]] - sum[ls[L]], mid = l + r &gt;&gt; 1;
+    if (x &gt;= k)
+      return query(ls[L], ls[R], l, mid, k);
+    else
+      return query(rs[L], rs[R], mid + 1, r, k - x);
+  }
+} seg;
+int main() {
+  ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+  cin &gt;&gt; n &gt;&gt; m;
+  for (int i = 1; i &lt;= n; ++i)
+    cin &gt;&gt; a[i], b[i] = a[i];
+  sort(b + 1, b + 1 + n);
+  int len = unique(b + 1, b + 1 + n) - b - 1;
+  seg.build(1, len, seg.root[0]);
+  for (int i = 1; i &lt;= n; ++i)
+    seg.add(1, len, seg.root[i], seg.root[i - 1],
+            lower_bound(b + 1, b + 1 + len, a[i]) - b);
+  for (int l, r, k; m--;) {
+    cin &gt;&gt; l &gt;&gt; r &gt;&gt; k;
+    cout &lt;&lt; b[seg.query(seg.root[l - 1], seg.root[r], 1, len, k)] &lt;&lt; &#34;\n&#34;;
+  }
+  return 0;
+}
+</code></pre><h2 id="其他練習題">其他練習題</h2>
+<blockquote>
+<h3 id="tioj-1827-yet-another-simple-task-____"><a href="https://tioj.ck.tp.edu.tw/problems/1827">TIOJ 1827 Yet another simple task ^____^</a></h3>
+<h4 id="題目敘述">題目敘述</h4>
+<p>給定一個長度為 N 的整數序列 B。有 M 筆詢問，對於每組詢問 (P, K)，求最小的答案 S 滿足至少有 K 個元素滿足以下條件</p>
+<ul>
+<li>|P - i| &lt;= S</li>
+<li>B_i &lt;= S</li>
+</ul>
+<p>1 &lt;= N, M &lt;= 10^5
+1 &lt;= K, B_i &lt;= N
+0 &lt;= P \lt N</p></blockquote>
+<h4 id="想法">想法</h4>
+<p>考慮對答案二分搜，我們二分搜 S ，至於二分搜的判斷就是要求出區間 [P - S, P +S] 中小於等於 S 的元素有多少個，這個問題可以用持久化線段樹解決。</p>
+<p>時間複雜度： O(Nlog{N} + Mlog^2{N})</p>
+<h4 id="ac-code">AC code</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define F first
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define S second
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ll;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> n, m;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> z <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">persistent_segment_tree</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> rt[z] <span style="color:#f92672">=</span> {}, cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, lc[z <span style="color:#f92672">*</span> <span style="color:#ae81ff">70</span>], rc[z <span style="color:#f92672">*</span> <span style="color:#ae81ff">70</span>], sum[z <span style="color:#f92672">*</span> <span style="color:#ae81ff">70</span>];
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">node</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">++</span>cnt;
+</span></span><span style="display:flex;"><span>    lc[cnt] <span style="color:#f92672">=</span> rc[cnt] <span style="color:#f92672">=</span> sum[cnt] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> cnt;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>o) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>o)
+</span></span><span style="display:flex;"><span>      o <span style="color:#f92672">=</span> node();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> l <span style="color:#f92672">+</span> r <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    build(l, mid, lc[o]), build(mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, r, rc[o]);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">mdf</span>(<span style="color:#66d9ef">int</span> prv, <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>o, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> x) {
+</span></span><span style="display:flex;"><span>    o <span style="color:#f92672">=</span> node();
+</span></span><span style="display:flex;"><span>    lc[o] <span style="color:#f92672">=</span> lc[prv], rc[o] <span style="color:#f92672">=</span> rc[prv], sum[o] <span style="color:#f92672">=</span> sum[prv] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (l <span style="color:#f92672">==</span> r)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> l <span style="color:#f92672">+</span> r <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;=</span> mid)
+</span></span><span style="display:flex;"><span>      mdf(lc[prv], lc[o], l, mid, x);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>      mdf(rc[prv], rc[o], mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, r, x);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">qry</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> o, <span style="color:#66d9ef">int</span> ql, <span style="color:#66d9ef">int</span> qr) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (ql <span style="color:#f92672">&lt;=</span> l <span style="color:#f92672">&amp;&amp;</span> r <span style="color:#f92672">&lt;=</span> qr)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> sum[o];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> l <span style="color:#f92672">+</span> r <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>, s <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (ql <span style="color:#f92672">&lt;=</span> mid)
+</span></span><span style="display:flex;"><span>      s <span style="color:#f92672">=</span> qry(l, mid, lc[o], ql, qr);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (qr <span style="color:#f92672">&gt;</span> mid)
+</span></span><span style="display:flex;"><span>      s <span style="color:#f92672">+=</span> qry(mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, r, rc[o], ql, qr);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> s;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">get_</span>(<span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r, <span style="color:#66d9ef">int</span> k) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> qry(<span style="color:#ae81ff">1</span>, n, rt[r], <span style="color:#ae81ff">1</span>, k) <span style="color:#f92672">-</span> qry(<span style="color:#ae81ff">1</span>, n, rt[l <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>], <span style="color:#ae81ff">1</span>, k);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>} seg;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">signed</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>  ios<span style="color:#f92672">::</span>sync_with_stdio(<span style="color:#ae81ff">0</span>), cin.tie(<span style="color:#ae81ff">0</span>), cout.tie(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>  cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+</span></span><span style="display:flex;"><span>  seg.build(<span style="color:#ae81ff">1</span>, n, seg.rt[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x, i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> x;
+</span></span><span style="display:flex;"><span>    seg.mdf(seg.rt[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>], seg.rt[i], <span style="color:#ae81ff">1</span>, n, x);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> mid, l, r, p, k, o; m; <span style="color:#f92672">--</span>m) {
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> p <span style="color:#f92672">&gt;&gt;</span> k;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">++</span>p;
+</span></span><span style="display:flex;"><span>    l <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, r <span style="color:#f92672">=</span> n;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (l <span style="color:#f92672">&lt;</span> r) {
+</span></span><span style="display:flex;"><span>      mid <span style="color:#f92672">=</span> l <span style="color:#f92672">+</span> r <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (seg.get_(max(<span style="color:#ae81ff">1</span>, p <span style="color:#f92672">-</span> mid), min(n, p <span style="color:#f92672">+</span> mid), mid) <span style="color:#f92672">&lt;</span> k)
+</span></span><span style="display:flex;"><span>        l <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> mid;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> l <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<h3 id="洛谷-p2617-dynamic-rankings"><a href="https://www.luogu.com.cn/problem/P2617">洛谷 P2617 Dynamic Rankings</a></h3>
+<h4 id="題目敘述-1">題目敘述</h4>
+<p>給定一個含有 n 個數的序列 a_1,a_2 \dots a_n，需要支援 m 個操作，操作有两種：</p>
+<ul>
+<li><code>Q l r k</code> 表示查詢下標在區間 [l,r] 中的第 k 小的數</li>
+<li><code>C x y</code> 表示將 a_x 改為 y</li>
+</ul>
+<p>1&lt; n,m &lt; 10^5，1 &lt; l &lt; r &lt; n，1 &lt; k &lt; r-l+1，1&lt; x &lt; n，0 &lt; a_i,y &lt; 10^9。</p></blockquote>
+<h4 id="想法-1">想法</h4>
+<p>這題其實也可以用整體二分來解，但本章節不討論此解法。</p>
+<p>仔細思考發現靜態的區間第 k 小利用的是持久化線段樹前綴和的特性，而這題的差別多了一個修改操作，所以我們需要一個支援單點修改和區間求和的資料結構：<strong>樹狀數組</strong>，我們可以考慮樹狀數組套權值線段樹，樹狀數組的每個節點都代表一個線段樹的根節點。</p>
+<p>在修改的時候，樹狀數組的單點修改複雜度為 O(log{N}) ，每個線段樹的修改也要 O(log{N}) ，所以一次修改所要花費的時間複雜度為  O(log^2{N})。</p>
+<p>對於區間查詢 [l, r]，我們直接從樹狀數組取出相對應的 log{N} 個節點 ( l-1 和  r  都各有 log{N}) 個，之後遞迴詢問就跟一般的區間第 k 小一樣，只是這次要對 log{N} 個線段樹相減。</p>
+<p>時間複雜度: O(Mlog^2{N})
+空間的部分，因為我們是採用動態開點來實作，所需的空間複雜度跟修改是同一階的，所以是 O(Mlog^2{N})</p>
+<h4 id="ac-code-1">AC code</h4>
+<pre tabindex="0"><code class="language-cpp=" data-lang="cpp=">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+#define lb(x) x &amp; -x
+
+const int maxn = 100001;
+int n, m, a[maxn], b[maxn &lt;&lt; 1], len;
+struct query {
+  int op, x, y, z;
+} q[maxn];
+struct persistent_segment_tree {
+  int ls[maxn * 400], rs[maxn * 400], sum[maxn * 400], root[maxn], cnt;
+  vector&lt;int&gt; ql, qr;
+  void mdf(int l, int r, int x, int &amp;o, int val) {
+    if (!o)
+      o = ++cnt;
+    sum[o] += val;
+    if (l == r)
+      return;
+    int mid = l + r &gt;&gt; 1;
+    if (x &lt;= mid)
+      mdf(l, mid, x, ls[o], val);
+    else
+      mdf(mid + 1, r, x, rs[o], val);
+  }
+  void mdf_all(int x, int val) {
+    int idx = lower_bound(b + 1, b + 1 + len, a[x]) - b;
+    for (; x &lt;= n; x += lb(x))
+      mdf(1, len, idx, root[x], val);
+  }
+  int qry(int l, int r, int k) {
+    if (l == r)
+      return l;
+    int mid = l + r &gt;&gt; 1, S = 0;
+    for (auto &amp;i : ql)
+      S -= sum[ls[i]];
+    for (auto &amp;i : qr)
+      S += sum[ls[i]];
+    if (k &lt;= S) {
+      for (int i = 0, j = ql.size(); i &lt; j; ++i)
+        ql[i] = ls[ql[i]];
+      for (int i = 0, j = qr.size(); i &lt; j; ++i)
+        qr[i] = ls[qr[i]];
+      return qry(l, mid, k);
+    } else {
+      for (int i = 0, j = ql.size(); i &lt; j; ++i)
+        ql[i] = rs[ql[i]];
+      for (int i = 0, j = qr.size(); i &lt; j; ++i)
+        qr[i] = rs[qr[i]];
+      return qry(mid + 1, r, k - S);
+    }
+  }
+  int qry_all(int l, int r, int k) {
+    ql.clear(), qr.clear();
+    for (; r; r -= lb(r))
+      qr.emplace_back(root[r]);
+    for (--l; l; l -= lb(l))
+      ql.emplace_back(root[l]);
+    return qry(1, len, k);
+  }
+} seg;
+int main() {
+  ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+  cin &gt;&gt; n &gt;&gt; m;
+  for (int i = 1; i &lt;= n; ++i)
+    cin &gt;&gt; a[i], b[++len] = a[i];
+  for (int i = 1; i &lt;= m; ++i) {
+    char c;
+    cin &gt;&gt; c;
+    q[i].op = c == &#39;Q&#39;;
+    if (c == &#39;Q&#39;)
+      cin &gt;&gt; q[i].x &gt;&gt; q[i].y &gt;&gt; q[i].z;
+    else
+      cin &gt;&gt; q[i].x &gt;&gt; q[i].y, b[++len] = q[i].y;
+  }
+  sort(b + 1, b + 1 + len);
+  len = unique(b + 1, b + 1 + len) - b - 1;
+  for (int i = 1; i &lt;= n; ++i)
+    seg.mdf_all(i, 1);
+  for (int i = 1; i &lt;= m; ++i) {
+    if (q[i].op)
+      cout &lt;&lt; b[seg.qry_all(q[i].x, q[i].y, q[i].z)] &lt;&lt; &#34;\n&#34;;
+    else {
+      seg.mdf_all(q[i].x, -1);
+      a[q[i].x] = q[i].y;
+      seg.mdf_all(q[i].x, 1);
+    }
+  }
+  return 0;
+}
+</code></pre><blockquote>
+<h3 id="洛谷-p2633-count-on-a-tree"><a href="https://www.luogu.com.cn/problem/P2633">洛谷 P2633 Count on a tree</a></h3>
+<h4 id="題目敘述-2">題目敘述</h4>
+<p>給定一棵 n 個節點的樹，每個點有一個權值。有 m 個詢問，每次給你 u,v,k，你需要回答 u \text{ xor last} 和 v 這兩個節點間第 k 小的點權。</p>
+<p>其中 \text{last} 是上一個詢問的答案，定義其初始為 0。</p>
+<p>1&lt; n,m &lt; 10^5， 點權在 [1,2^{31}-1] 之間。</p></blockquote>
+<h4 id="想法-2">想法</h4>
+<p>轉換一下題目會發現這是區間第 k 小的樹上版本：每次詢問樹上某兩點的路徑上第 k 小的值。</p>
+<p>考慮持久化線段樹具有前綴和的性質，我們可以利用樹上差分來解這題，我們定義 p[u] 代表從根節點到點 u 的持久化線段樹版本，那在點 u 到點 v 路徑之間的 &ldquo;權值線段樹&rdquo; 的樣子就是</p>
+<p>p[u] + p[v] - p[LCA(u,v)] - p[fa[LCA(u, v)]]</p>
+<p>只要用上面的公式算出相對應的權值線段樹，接下來的詢問就跟一般的一樣。</p>
+<p>時間複雜度： O(Qlog{N} + Nlog{N})</p>
+<h4 id="ac-code-2">AC code</h4>
+<pre tabindex="0"><code class="language-cpp=" data-lang="cpp=">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+typedef long long ll;
+
+const int z = 1e5 + 5, Z = z * 120;
+struct edge {
+  int to, nxt;
+} e[z &lt;&lt; 1];
+int tot = 0, cnt = 0, h[z], n, m, dep[z], lca[20][z], a[z], b[z], val[Z], len;
+void add(int u, int v) {
+  e[++cnt] = edge{v, h[u]};
+  h[u] = cnt;
+}
+void build_lca() {
+  for (int j = 1; j &lt;= 17; ++j)
+    for (int i = 1; i &lt;= n; ++i)
+      lca[j][i] = lca[j - 1][lca[j - 1][i]];
+}
+int LCA(int a, int b) {
+  if (dep[a] &lt; dep[b])
+    swap(a, b);
+  for (int i = dep[a] - dep[b], k = 0; i; i &gt;&gt;= 1, ++k)
+    if (i &amp; 1)
+      a = lca[k][a];
+  if (a == b)
+    return a;
+  for (int i = 17; ~i; --i)
+    if (lca[i][a] != lca[i][b])
+      a = lca[i][a], b = lca[i][b];
+  return lca[0][a];
+}
+struct persistent_segment_tree {
+  int rs[Z], ls[Z], p[z];
+  void build_tree(int l, int r, int &amp;rt) {
+    rt = ++tot;
+    val[rt] = 0;
+    if (l == r)
+      return;
+    int mid = l + r &gt;&gt; 1;
+    build_tree(l, mid, ls[rt]), build_tree(mid + 1, r, rs[rt]);
+  }
+  void inse(int l, int r, int x, int &amp;rt, int pre) {
+    rt = ++tot;
+    rs[rt] = rs[pre], ls[rt] = ls[pre], val[rt] = val[pre] + 1;
+    if (l == r)
+      return;
+    int mid = l + r &gt;&gt; 1;
+    if (x &lt;= mid)
+      inse(l, mid, x, ls[rt], ls[pre]);
+    else
+      inse(mid + 1, r, x, rs[rt], rs[pre]);
+  }
+
+  int query(int l, int r, int A, int B, int lc, int fa, int k) {
+    if (l == r)
+      return l;
+    int x = val[ls[A]] + val[ls[B]] - val[ls[lc]] - val[ls[fa]],
+        mid = l + r &gt;&gt; 1;
+    if (k &lt;= x)
+      return query(l, mid, ls[A], ls[B], ls[lc], ls[fa], k);
+    return query(mid + 1, r, rs[A], rs[B], rs[lc], rs[fa], k - x);
+  }
+} seg;
+void dfs(int x, int pa) {
+  seg.inse(1, len, lower_bound(b + 1, b + 1 + len, a[x]) - b, seg.p[x],
+           seg.p[pa]);
+  for (int i = h[x]; i; i = e[i].nxt) {
+    int v = e[i].to;
+    if (dep[v])
+      continue;
+    dep[v] = dep[x] + 1;
+    lca[0][v] = x;
+    dfs(v, x);
+  }
+}
+int main() {
+  ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+  cin &gt;&gt; n &gt;&gt; m;
+  for (int i = 1; i &lt;= n; ++i)
+    cin &gt;&gt; a[i], b[i] = a[i];
+  sort(b + 1, b + 1 + n);
+  len = unique(b + 1, b + 1 + n) - b - 1;
+  int x, y, k, last = 0;
+  for (int i = 0; i &lt; n - 1; ++i) {
+    cin &gt;&gt; x &gt;&gt; y;
+    add(x, y);
+    add(y, x);
+  }
+  dep[1] = 1;
+  seg.build_tree(1, len, seg.p[0]);
+  dfs(1, 0);
+  build_lca();
+  while (m--) {
+    cin &gt;&gt; x &gt;&gt; y &gt;&gt; k;
+    x ^= last;
+    int lc = LCA(x, y), fa = lca[0][lc];
+    last = b[seg.query(1, len, seg.p[x], seg.p[y], seg.p[lc], seg.p[fa], k)];
+    cout &lt;&lt; last &lt;&lt; &#34;\n&#34;;
+  }
+  return 0;
+}
+</code></pre><blockquote>
+<h3 id="codefroces-1171f"><a href="https://codeforces.com/problemset/problem/1771/F">Codefroces 1171F</a></h3>
+<h4 id="題目敘述-3">題目敘述</h4>
+<p>題目大意是給定一個長度為 n 的非負整數序列，接下來有 q 筆詢問，每次詢問一個區間 [l, r] 中出現次數為<strong>奇數</strong>的數字中，最小的那個是多少。題目強制在線，輸入的 l, r 需要xor lastans 才是真正要詢問的區間。</p>
+<p>1&lt; n, q  &lt; 10^5 , 1&lt; a_i &lt; 10^9 , 1&lt; l,r &lt; 2 \times 10^9</p></blockquote>
+<h4 id="想法-3">想法</h4>
+<p>題目要求出現次數為奇數，可以考慮使用xor hash，對每個數產生一個隨機的權重，如果一個數字出現次數為偶數，則xor起來會是0。所以在持久化線段樹上做詢問的時候只要判斷兩棵左子樹的xor值是不是0就可以了，如果不是就往左子樹找，否則往右子樹找。
+需要注意的點是如果 random seed 使用的是 <code>srand(time(0))</code> 的話會發生 hash conflict，改用<code>mt19937 random(time(0))</code>就可以AC了。</p>
+<p>時間複雜度： O(Qlog{N} + Nlog{N})</p>
+<h4 id="ac-code-3">AC code</h4>
+<pre tabindex="0"><code class="language-cpp=" data-lang="cpp=">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int z = 2e5 + 5, inf = 1e9 + 2;
+int n, m, cnt, lst;
+struct persistent_segment_tree {
+  int seg[z &lt;&lt; 6], rt[z], lc[z &lt;&lt; 6], rc[z &lt;&lt; 6];
+  void mdf(int l, int r, int x, int v, int &amp;o, int pre) {
+    o = ++cnt;
+    lc[o] = lc[pre], rc[o] = rc[pre], seg[o] = seg[pre] ^ v;
+    if (l == r)
+      return;
+    int mid = l + (r - l) / 2;
+    if (x &lt;= mid)
+      mdf(l, mid, x, v, lc[o], lc[pre]);
+    else
+      mdf(mid + 1, r, x, v, rc[o], rc[pre]);
+  }
+  int qry(int l, int r, int L, int R) {
+    if (l == r)
+      return l;
+    int mid = l + (r - l) / 2;
+    if (seg[lc[R]] ^ seg[lc[L]])
+      return qry(l, mid, lc[L], lc[R]);
+    return qry(mid + 1, r, rc[L], rc[R]);
+  }
+} seg;
+unordered_map&lt;int, int&gt; mp;
+signed main() {
+  ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+  mt19937 rand(time(0));
+  cin &gt;&gt; n;
+  for (int x, i = 1; i &lt;= n; ++i) {
+    cin &gt;&gt; x;
+    if (!mp[x])
+      mp[x] = rand() % inf + 1;
+    seg.mdf(0, inf, x, mp[x], seg.rt[i], seg.rt[i - 1]);
+  }
+  cin &gt;&gt; m;
+  for (int l, r; m--;) {
+    cin &gt;&gt; l &gt;&gt; r;
+    l ^= lst, r ^= lst;
+    lst = seg.qry(0, inf, seg.rt[l - 1], seg.rt[r]);
+    if (lst == inf)
+      lst = 0;
+    cout &lt;&lt; lst &lt;&lt; &#34;\n&#34;;
+  }
+}
+</code></pre><h2 id="references">References</h2>
+<p><a href="https://blog.csdn.net/yanweiqi1754989931/article/details/117380913">https://blog.csdn.net/yanweiqi1754989931/article/details/117380913</a></p>
+<p><a href="https://oi-wiki.org/ds/persistent-seg/">https://oi-wiki.org/ds/persistent-seg/</a></p>
+<p><a href="https://usaco.guide/adv/persistent?lang=cpp">https://usaco.guide/adv/persistent?lang=cpp</a></p>
+<p><a href="https://codeforces.com/blog/entry/49777">https://codeforces.com/blog/entry/49777</a></p>
+<p><a href="https://codeforces.com/blog/entry/56880">https://codeforces.com/blog/entry/56880</a></p>
+<p><a href="https://cp-algorithms.com/data_structures/segment_tree.html#compression-of-2d-segment-tree">https://cp-algorithms.com/data_structures/segment_tree.html#compression-of-2d-segment-tree</a></p>
+]]></content>
+        </item>
         
         <item>
             <title>Rust學習筆記</title>
-            <link>https://valderyaya.github.io/posts/rust%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/</link>
+            <link>http://localhost:1313/posts/rust%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/</link>
             <pubDate>Wed, 26 Feb 2025 10:03:54 +0800</pubDate>
             
-            <guid>https://valderyaya.github.io/posts/rust%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/</guid>
+            <guid>http://localhost:1313/posts/rust%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/</guid>
             <description>&lt;blockquote&gt;
 &lt;p&gt;已经弃掉了(x)&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;編譯指令&#34;&gt;編譯指令&lt;/h2&gt;
@@ -176,10 +746,10 @@
         
         <item>
             <title>Hugo架设笔记</title>
-            <link>https://valderyaya.github.io/posts/hugo%E6%9E%B6%E8%AE%BE%E7%AC%94%E8%AE%B0/</link>
+            <link>http://localhost:1313/posts/hugo%E6%9E%B6%E8%AE%BE%E7%AC%94%E8%AE%B0/</link>
             <pubDate>Mon, 24 Feb 2025 21:59:46 +0800</pubDate>
             
-            <guid>https://valderyaya.github.io/posts/hugo%E6%9E%B6%E8%AE%BE%E7%AC%94%E8%AE%B0/</guid>
+            <guid>http://localhost:1313/posts/hugo%E6%9E%B6%E8%AE%BE%E7%AC%94%E8%AE%B0/</guid>
             <description>&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
 &lt;p&gt;Windows: &lt;code&gt;winget install Hugo.Hugo.Extended&lt;/code&gt;&lt;/p&gt;
 &lt;h2 id=&#34;在-github-建立一个仓库&#34;&gt;在 github 建立一个仓库&lt;/h2&gt;
