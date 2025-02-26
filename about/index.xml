@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Abouts on valderyaya library</title>
-    <link>http://localhost:1313/about/</link>
+    <link>https://valderyaya.github.io/about/</link>
     <description>Recent content in Abouts on valderyaya library</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 25 Feb 2025 17:17:05 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/about/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://valderyaya.github.io/about/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About</title>
-      <link>http://localhost:1313/about/about/</link>
+      <link>https://valderyaya.github.io/about/about/</link>
       <pubDate>Tue, 25 Feb 2025 17:17:05 +0800</pubDate>
-      <guid>http://localhost:1313/about/about/</guid>
+      <guid>https://valderyaya.github.io/about/about/</guid>
       <description>&lt;p&gt;Hello!&lt;/p&gt;&#xA;&lt;p&gt;TBC&amp;hellip;&lt;/p&gt;</description>
     </item>
   </channel>
