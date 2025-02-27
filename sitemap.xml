@@ -2,16 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://valderyaya.github.io/tags/competitive-programming/</loc>
-    <lastmod>2025-02-26T10:39:33+08:00</lastmod>
-  </url><url>
     <loc>https://valderyaya.github.io/posts/</loc>
-    <lastmod>2025-02-26T10:39:33+08:00</lastmod>
+    <lastmod>2025-02-27T11:21:06+08:00</lastmod>
   </url><url>
     <loc>https://valderyaya.github.io/tags/</loc>
-    <lastmod>2025-02-26T10:39:33+08:00</lastmod>
+    <lastmod>2025-02-27T11:21:06+08:00</lastmod>
   </url><url>
     <loc>https://valderyaya.github.io/</loc>
+    <lastmod>2025-02-27T11:21:06+08:00</lastmod>
+  </url><url>
+    <loc>https://valderyaya.github.io/tags/%E6%94%B6%E8%97%8F%E7%BD%91%E7%AB%99/</loc>
+    <lastmod>2025-02-27T11:21:06+08:00</lastmod>
+  </url><url>
+    <loc>https://valderyaya.github.io/posts/%E6%94%B6%E8%97%8F%E7%BD%91%E7%AB%99/</loc>
+    <lastmod>2025-02-27T11:21:06+08:00</lastmod>
+  </url><url>
+    <loc>https://valderyaya.github.io/tags/competitive-programming/</loc>
     <lastmod>2025-02-26T10:39:33+08:00</lastmod>
   </url><url>
     <loc>https://valderyaya.github.io/posts/%E6%8C%81%E4%B9%85%E5%8C%96%E7%B7%9A%E6%AE%B5%E6%A8%B9/</loc>
